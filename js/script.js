@@ -10,16 +10,18 @@ const onSubmit = (e) => {
     const url = document.getElementById('url').value;
     const size = document.getElementById('size').value;
 
+    //Validate the URL
     if (url === '') {
         alert('Please enter a URL');
     } else {
-        showSpinner();
+        displaySpinner();
 
         setTimeout(() => {
             hideSpinner();
 
             generateQRCode(url,size);
 
+            //generate the save btn after the QR code image is ready
             setTimeout(() => {
                 const saveUrl = qrForm.querySelector('img').src;
                 createSaveBtn(saveUrl);
@@ -35,8 +37,9 @@ const generateQRCode = (url, size) => {
         height:size,
     })
 };
+
 //Display Spinner
-const showSpinner = () => {
+const displaySpinner = () => {
     document.getElementById('spinner').style.display = 'block';
 };
 
@@ -48,12 +51,17 @@ const hideSpinner = () => {
 //Clear Ui
 const clearUI =() => {
     qrForm.innerHTML = '';
+    const saveLink = document.getElementById('save-link');
+
+    if(saveLink){
+        saveLink.remove();
+    }
 };
 
 const createSaveBtn = (saveUrl) => {
     const link = document.createElement('a');
     link.id = 'save-link';
-    link.classList = 'bg-red-500 hover:bg-red-700 text-white font-bold py-2 rounded w-1/3 m-auto my-5';
+    link.classList = 'bg-green-500 hover:bg-green-700 text-white font-bold py-2 rounded w-1/3 m-auto my-5';
     link.href = saveUrl;
     link.download = 'qrCode';
     link.innerText = 'Save QR Code';
